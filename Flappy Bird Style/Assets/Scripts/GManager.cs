@@ -10,21 +10,41 @@ public class GManager : MonoBehaviour
     public GameObject pontuation;
     public GameObject spawnPoint;
     public GameObject startButton;
+    public GameObject PlayeButton;
+    //TUTORIA--
+    public GameObject tutorial;
+    public Animator tutorialAn;
+    //---
 
     [SerializeField] TMP_Text score;
     [SerializeField] TMP_Text best;
     Scene currentScene;
+
+    [SerializeField] Rigidbody2D playerRb;
+    public PlayerBehaviour pb;
+
+    bool pause;
     
     private void Start()
     {
         //Time.timeScale = 0;
         currentScene = SceneManager.GetActiveScene();
     }
+    int a = 0;
     public void StartGame()
     {
+        if (a == 0)
+        {
+            pb.Flap();
+            a++;    
+        }
+        tutorialAn.Play("fade");
+        spawnPoint.SetActive(true);
+        PlayeButton.SetActive(false);
+        pb.inGame = true;
         Time.timeScale = 1;
+        playerRb.bodyType = RigidbodyType2D.Dynamic;
         StartCanvas.SetActive(false);
-        startButton.SetActive(false);
         pontuation.SetActive(true);
         spawnPoint.SetActive(true);
         //Time.timeScale = 1;
@@ -32,7 +52,8 @@ public class GManager : MonoBehaviour
     public void GameOver()
     {
         Time.timeScale = 0;
-        //spawnPoint.SetActive(false);
+        playerRb.bodyType = RigidbodyType2D.Kinematic;
+
         gameOverCanvas.SetActive(true);
     }
     public void RestartLevel(string newScore)
@@ -49,5 +70,19 @@ public class GManager : MonoBehaviour
     public void ResetScore()
     {
         score.text = "0";
+    }
+    public void PauseGame()
+    {
+        pause = !pause;
+        if (pause)
+            Time.timeScale = 0;
+        else
+            Time.timeScale = 1;
+    }
+    public void Tutorial()
+    {
+     
+        startButton.SetActive(false);
+        tutorial.SetActive(true);
     }
 }
