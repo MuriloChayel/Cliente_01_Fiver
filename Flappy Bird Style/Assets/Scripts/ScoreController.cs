@@ -23,6 +23,7 @@ public class ScoreController : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacles"))
         {
             alive = false;
+            manager.GetComponent<HighScore>().SetHighScore(score);
             manager.GameOver();
         }
 
