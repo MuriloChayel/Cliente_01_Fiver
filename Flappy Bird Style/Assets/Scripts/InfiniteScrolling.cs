@@ -6,7 +6,7 @@ public class InfiniteScrolling : MonoBehaviour
 {
     public float velocity;
     Vector3 startPosition;
-    public float limit;
+    public float limit; 
     private void Start()
     {
         startPosition = transform.position;
